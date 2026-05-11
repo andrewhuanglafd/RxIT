@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f172a">
+<meta name="author" content="Fire Fueled Education LLC" />
+<meta name="copyright" content="© 2026 Fire Fueled Education LLC. All rights reserved." />
+<title>Rx IT — NREMT Paramedic Drug Study</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #0f172a;
+    --bg-2: #1e293b;
+    --bg-3: #334155;
+    --text: #f1f5f9;
+    --text-dim: #94a3b8;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --border: #334155;
+    --cardiac: #ef4444;
+    --rsi: #8b5cf6;
+    --pain: #f59e0b;
+    --respiratory: #06b6d4;
+    --overdose: #84cc16;
+    --seizures: #ec4899;
+    --diabetes: #14b8a6;
+    --allergies: #f97316;
+    --obgyn: #d946ef;
+    --restraint: #6366f1;
+    --nausea: #22c55e;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+    overflow-x: hidden;
+  }
+  header {
+    background: var(--bg-2);
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  header h1 span { color: var(--accent); }
+  .stats-pill {
+    background: var(--bg-3);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 600;
+  }
+  .stats-pill strong { color: var(--success); }
+
+  main { padding: 16px; max-width: 800px; margin: 0 auto; }
+
+  /* Bottom nav */
+  nav.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-2);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    z-index: 100;
+  }
+  nav.bottom-nav button {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+  nav.bottom-nav button.active { color: var(--accent); }
+  nav.bottom-nav button:hover { color: var(--text); }
+  nav.bottom-nav .icon { font-size: 20px; }
+
+  /* Views */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* Home */
+  .home-greeting {
+    margin-bottom: 24px;
+  }
+  .home-greeting h2 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .home-greeting p { color: var(--text-dim); font-size: 14px; }
+
+  .progress-card {
+    background: linear-gradient(135deg, var(--accent) 0%, #6366f1 100%);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .progress-card h3 { font-size: 14px; font-weight: 600; opacity: 0.9; margin-bottom: 8px; }
+  .progress-card .number { font-size: 36px; font-weight: 800; margin-bottom: 4px; }
+  .progress-card .sub { font-size: 13px; opacity: 0.8; }
+  .progress-bar {
+    background: rgba(255,255,255,0.2);
+    height: 6px;
+    border-radius: 999px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    background: white;
+    height: 100%;
+    transition: width 0.5s;
+    border-radius: 999px;
+  }
+
+  .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .mode-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .mode-card:hover { background: var(--bg-3); transform: translateY(-2px); }
+  .mode-card .icon { font-size: 28px; margin-bottom: 10px; display: block; }
+  .mode-card .title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .mode-card .desc { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    margin-top: 8px;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .category-pill {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text);
+    font-family: inherit;
+    text-align: left;
+  }
+  .category-pill:hover { background: var(--bg-3); }
+  .category-pill .name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .category-pill .count { font-size: 11px; color: var(--text-dim); }
+  .category-pill .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* Flashcard */
+  .flashcard-container {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 460px;
+    margin: 16px auto;
+    height: min(520px, calc(100vh - 320px));
+    min-height: 360px;
+    position: relative;
+    touch-action: pan-y;
+  }
+
+  /* Vertically center the card + controls cluster in the available viewport */
+  #view-flashcards.active {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 180px);
+  }
+  #view-flashcards .flashcard-container { margin-top: auto; margin-bottom: 0; }
+  #view-flashcards .card-hint { margin-bottom: auto; }
+  .flashcard-container.swipe-left .flashcard { animation: swipeOutLeft 0.25s ease-out forwards; }
+  .flashcard-container.swipe-right .flashcard { animation: swipeOutRight 0.25s ease-out forwards; }
+  .flashcard-container.swipe-in-left .flashcard { animation: swipeInFromRight 0.25s ease-out forwards; }
+  .flashcard-container.swipe-in-right .flashcard { animation: swipeInFromLeft 0.25s ease-out forwards; }
+  @keyframes swipeOutLeft  { to { transform: translateX(-110%) rotate(-4deg); opacity: 0; } }
+  @keyframes swipeOutRight { to { transform: translateX(110%) rotate(4deg);  opacity: 0; } }
+  @keyframes swipeInFromRight { from { transform: translateX(110%) rotate(4deg); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes swipeInFromLeft  { from { transform: translateX(-110%) rotate(-4deg); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  .flashcard {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .flashcard-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+  }
+  .flashcard-back { transform: rotateY(180deg); }
+  .flashcard .category-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+    margin-bottom: 16px;
+    align-self: flex-start;
+  }
+  .flashcard-front .drug-generic {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+  .flashcard-front .drug-trade {
+    font-size: 17px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+  .flashcard-front .tap-hint {
+    margin-top: auto;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    padding-top: 20px;
+  }
+  .flashcard-back .drug-name-mini {
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .flashcard-row {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .flashcard-row:last-child { border-bottom: none; }
+  .flashcard-row .label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 4px;
+  }
+  .flashcard-row .value {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .flashcard-controls {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .rate-btn {
+    flex: 1;
+    padding: 14px 10px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s;
+    color: white;
+    font-family: inherit;
+  }
+  .rate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .rate-btn.again { background: var(--danger); }
+  .rate-btn.hard { background: var(--warning); }
+  .rate-btn.good { background: var(--accent); }
+  .rate-btn.easy { background: var(--success); }
+  .rate-btn .label-sm { font-size: 10px; opacity: 0.85; display: block; margin-top: 2px; font-weight: 500; }
+
+  .flashcard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 460px;
+    margin: 12px auto 0;
+    gap: 8px;
+  }
+  .nav-btn {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 600;
+  }
+  .nav-btn:hover { background: var(--bg-3); }
+  .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .progress-text {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 600;
+  }
+
+  /* Quiz */
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .quiz-progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--bg-2);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 0 12px;
+  }
+  .quiz-progress-fill {
+    background: var(--accent);
+    height: 100%;
+    transition: width 0.3s;
+  }
+  .quiz-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .quiz-question-type {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .quiz-question {
+    font-size: 18px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  .quiz-question .highlight {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-option {
+    background: var(--bg-3);
+    border: 2px solid transparent;
+    color: var(--text);
+    padding: 14px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .quiz-option:hover:not(.revealed) { background: #475569; transform: translateX(2px); }
+  .quiz-option.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success); color: var(--success); }
+  .quiz-option.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--danger); color: var(--danger); }
+  .quiz-option.revealed { cursor: default; }
+  .quiz-option.fade { opacity: 0.5; }
+
+  .quiz-feedback {
+    background: var(--bg-2);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 12px;
+    border-left: 4px solid var(--accent);
+  }
+  .quiz-feedback h4 { font-size: 13px; margin-bottom: 6px; color: var(--accent); }
+  .quiz-feedback p { font-size: 13px; line-height: 1.5; color: var(--text); }
+
+  .quiz-results {
+    text-align: center;
+    padding: 32px 16px;
+  }
+  .quiz-results .score-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent), #6366f1);
+    margin: 0 auto 24px;
+    font-size: 36px;
+    font-weight: 800;
+  }
+  .quiz-results h2 { font-size: 24px; margin-bottom: 8px; }
+  .quiz-results p { color: var(--text-dim); margin-bottom: 24px; }
+
+  /* Browse */
+  .search-bar {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    width: 100%;
+    color: var(--text);
+    font-size: 15px;
+    font-family: inherit;
+    margin-bottom: 12px;
+  }
+  .search-bar:focus { outline: none; border-color: var(--accent); }
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .filter-chip.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .drug-list { display: flex; flex-direction: column; gap: 8px; }
+  .drug-item {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .drug-item:hover { background: var(--bg-3); }
+  .drug-item .cat-bar {
+    width: 4px;
+    align-self: stretch;
+    border-radius: 4px;
+  }
+  .drug-item .info { flex: 1; min-width: 0; }
+  .drug-item .name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .drug-item .meta {
+    font-size: 12px;
+    color: var(--text-dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .drug-item .mastery-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg-3);
+  }
+  .drug-item .mastery-dot.learning { background: var(--warning); }
+  .drug-item .mastery-dot.mastered { background: var(--success); }
+
+  /* Drug detail modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-backdrop.active { display: flex; }
+  .modal {
+    background: var(--bg-2);
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    max-width: 600px;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 24px 20px;
+    animation: slideUp 0.25s;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--bg-3);
+    border-radius: 999px;
+    margin: 0 auto 16px;
+  }
+  .modal h2 { font-size: 24px; margin-bottom: 4px; }
+  .modal .trade { color: var(--text-dim); font-style: italic; margin-bottom: 16px; }
+  .modal-row {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .modal-row:last-child { border-bottom: none; }
+  .modal-row .label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .modal-row .value { font-size: 14px; line-height: 1.5; }
+
+  /* Settings/Progress */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .stat-box {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .stat-box .num {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .stat-box .lbl {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 600;
+  }
+  .stat-box.success .num { color: var(--success); }
+  .stat-box.warning .num { color: var(--warning); }
+  .stat-box.accent .num { color: var(--accent); }
+
+  .danger-btn {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+    margin-top: 8px;
+  }
+  .danger-btn:hover { background: rgba(239, 68, 68, 0.25); }
+
+  .primary-btn {
+    background: var(--accent);
+    border: none;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    width: 100%;
+    margin-top: 16px;
+  }
+  .primary-btn:hover { background: var(--accent-hover); }
+
+  .quiz-setup {
+    background: var(--bg-2);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .quiz-setup h3 { margin-bottom: 16px; font-size: 18px; }
+  .setup-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .setup-row:last-of-type { border-bottom: none; }
+  .setup-row label { font-size: 14px; font-weight: 600; }
+  .setup-row select {
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 16px;
+    color: var(--text-dim);
+  }
+  .empty-state .emoji { font-size: 48px; margin-bottom: 16px; }
+  .empty-state h3 { color: var(--text); margin-bottom: 8px; }
+
+  /* Card star button */
+  .card-star {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.5);
+    transition: all 0.2s;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 0;
+  }
+  .card-star:hover { color: var(--warning); transform: scale(1.08); }
+  .card-star:active { transform: scale(0.92); }
+  .card-star.starred {
+    background: var(--warning);
+    color: white;
+    border-color: var(--warning);
+  }
+  .card-star.starred svg { fill: white; stroke: white; }
+  .card-star.pulse { animation: starPulse 0.4s ease-out; }
+  @keyframes starPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+
+  /* Big nav arrows */
+  .card-nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 460px;
+    margin: 16px auto 0;
+    gap: 12px;
+    padding: 0 8px;
+  }
+  .card-nav-btn-big {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 26px;
+    font-weight: 700;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .card-nav-btn-big:hover:not(:disabled) { background: var(--bg-3); transform: scale(1.05); }
+  .card-nav-btn-big:active:not(:disabled) { transform: scale(0.95); }
+  .card-nav-btn-big:disabled { opacity: 0.3; cursor: not-allowed; }
+  .card-counter-big {
+    font-size: 18px;
+    color: var(--text);
+    font-weight: 700;
+    flex: 1;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .card-counter-big .total { color: var(--text-dim); font-weight: 500; }
+
+  /* Got it / Still learning */
+  .card-rating-bar {
+    display: flex;
+    gap: 10px;
+    max-width: 460px;
+    margin: 12px auto 0;
+    padding: 0 8px;
+  }
+  .rating-btn-big {
+    flex: 1;
+    padding: 16px 12px;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .rating-btn-big.learning {
+    background: rgba(245,158,11,0.12);
+    color: var(--warning);
+    border-color: var(--warning);
+  }
+  .rating-btn-big.learning:hover { background: rgba(245,158,11,0.22); }
+  .rating-btn-big.got-it {
+    background: var(--success);
+    color: white;
+  }
+  .rating-btn-big.got-it:hover { background: #059669; }
+  .rating-btn-big:active { transform: scale(0.97); }
+
+  .card-hint {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 12px;
+    padding: 0 16px;
+  }
+
+  /* Starred banner on home */
+  .starred-banner {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .starred-banner.has-stars {
+    background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(239,68,68,0.10));
+    border-color: var(--warning);
+  }
+  .starred-banner .starred-info { flex: 1; min-width: 0; }
+  .starred-banner .starred-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+  }
+  .starred-banner.has-stars .starred-label { color: var(--warning); }
+  .starred-banner .starred-text { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .starred-banner .starred-text.empty { color: var(--text-dim); font-weight: 500; font-size: 13px; }
+  .starred-banner .study-btn {
+    background: var(--warning);
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .starred-banner .study-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .starred-banner .study-btn:active { transform: scale(0.97); }
+
+  /* Recommended mode card */
+  .mode-card.recommended {
+    background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(99,102,241,0.18));
+    border-color: var(--accent);
+    position: relative;
+  }
+  .mode-card .badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent);
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 7px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Drill setup field picker */
+  .drill-field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .drill-field-btn {
+    background: var(--bg-3);
+    border: 2px solid transparent;
+    color: var(--text);
+    padding: 14px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    position: relative;
+    transition: all 0.15s;
+  }
+  .drill-field-btn:hover { background: #475569; }
+  .drill-field-btn.selected {
+    border-color: var(--accent);
+    background: rgba(59,130,246,0.15);
+  }
+  .drill-field-btn .icon { font-size: 22px; display: block; margin-bottom: 8px; }
+  .drill-field-btn .title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .drill-field-btn .desc { font-size: 11px; color: var(--text-dim); line-height: 1.3; }
+  .drill-field-btn .rec-tag {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--success);
+    color: white;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 2px 5px;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+  }
+  #drill-start-btn:disabled {
+    background: var(--bg-3);
+    color: var(--text-dim);
+    cursor: not-allowed;
+  }
+
+  /* Drill flashcard layout */
+  .drill-drug-name {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .drill-question {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.4;
+    margin: auto 0;
+    text-align: center;
+    padding: 20px 0;
+  }
+  .drill-field-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 12px;
+  }
+  .drill-answer {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* Scenarios */
+  .scenario-stats-bar {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-align: center;
+  }
+  .scenario-stats-bar strong { color: var(--success); }
+
+  .scenario-list-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .scenario-list-card:hover { background: var(--bg-3); transform: translateX(2px); }
+  .scenario-list-card .scenario-icon { font-size: 28px; flex-shrink: 0; }
+  .scenario-list-card .scenario-info { flex: 1; min-width: 0; }
+  .scenario-list-card .scenario-title { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .scenario-list-card .scenario-cat { font-size: 12px; color: var(--text-dim); }
+  .scenario-list-card .scenario-status {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+    background: var(--bg-3);
+    color: var(--text-dim);
+  }
+  .scenario-list-card.status-correct .scenario-status { background: rgba(16,185,129,0.2); color: var(--success); }
+  .scenario-list-card.status-incorrect .scenario-status { background: rgba(239,68,68,0.2); color: var(--danger); }
+
+  /* Scenario runner */
+  .scenario-counter {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 10px;
+  }
+  .scenario-case {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .scenario-case-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .scenario-case-header .scenario-icon { font-size: 32px; }
+  .scenario-case-title { font-size: 18px; font-weight: 800; margin-bottom: 2px; }
+  .scenario-case-cat {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .scenario-presentation {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .scenario-vitals {
+    background: var(--bg-3);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: ui-monospace, 'SF Mono', monospace;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .scenario-vitals strong {
+    color: var(--accent);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .scenario-question {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 14px;
+    padding: 0 4px;
+  }
+  .scenario-options { display: flex; flex-direction: column; gap: 10px; }
+  .scenario-option {
+    background: var(--bg-2);
+    border: 2px solid var(--border);
+    color: var(--text);
+    padding: 14px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.15s;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  .scenario-option:hover:not(.revealed) { background: var(--bg-3); border-color: var(--accent); }
+  .scenario-option:active:not(.revealed) { transform: scale(0.98); }
+  .scenario-option.correct { background: rgba(16,185,129,0.15); border-color: var(--success); color: var(--success); font-weight: 700; }
+  .scenario-option.wrong { background: rgba(239,68,68,0.15); border-color: var(--danger); color: var(--danger); font-weight: 700; }
+  .scenario-option.fade { opacity: 0.5; }
+  .scenario-option.revealed { cursor: default; }
+
+  .scenario-feedback {
+    margin-top: 16px;
+    border-radius: 12px;
+    padding: 16px;
+    border-left: 4px solid var(--accent);
+    background: var(--bg-2);
+  }
+  .scenario-feedback.correct { border-left-color: var(--success); background: rgba(16,185,129,0.08); }
+  .scenario-feedback.wrong { border-left-color: var(--danger); background: rgba(239,68,68,0.08); }
+  .scenario-feedback .feedback-header {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .scenario-feedback.correct .feedback-header { color: var(--success); }
+  .scenario-feedback.wrong .feedback-header { color: var(--danger); }
+  .scenario-feedback .feedback-text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  .scenario-refs {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .scenario-refs .refs-label {
+    width: 100%;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .ref-link {
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .ref-link:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+  .scenario-disclaimer {
+    background: rgba(245,158,11,0.08);
+    border-left: 3px solid var(--warning);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* Drug Families */
+  .family-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .family-card:hover { background: var(--bg-3); transform: translateX(2px); }
+  .family-card .family-icon { font-size: 28px; flex-shrink: 0; }
+  .family-card .info { flex: 1; min-width: 0; }
+  .family-card .name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .family-card .meta { font-size: 12px; color: var(--text-dim); }
+  .family-card .arrow { color: var(--text-dim); font-size: 18px; flex-shrink: 0; }
+
+  .family-section {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .family-section h3 {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 10px;
+  }
+  .family-row {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .family-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .family-row .drug-label {
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .family-row .drug-cat {
+    font-weight: 500;
+    color: var(--text-dim);
+    font-size: 11px;
+    text-transform: none;
+  }
+
+  .family-tip {
+    background: rgba(245, 158, 11, 0.1);
+    border-left: 4px solid var(--warning);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .family-tip .label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--warning);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .family-tip .text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  /* Fire Fueled Education footer */
+  .ffe-foot {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: var(--text-dim);
+    opacity: 0.6;
+    margin-top: 40px;
+    padding: 20px 16px 8px;
+    line-height: 1.7;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 380px) {
+    .mode-grid { grid-template-columns: 1fr; }
+    .flashcard-container { height: 480px; }
+    .flashcard-front .drug-generic { font-size: 26px; }
+    .drill-field-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Rx <span>IT</span></h1>
+  <div class="stats-pill"><strong id="header-mastered">0</strong> / <span id="header-total">0</span> mastered</div>
+</header>
+
+<main>
+  <!-- HOME VIEW -->
+  <section id="view-home" class="view active">
+    <div class="home-greeting">
+      <h2>Ready to study?</h2>
+      <p>Master all 49 NREMT paramedic drug profiles.</p>
+    </div>
+
+    <div class="progress-card">
+      <h3>Your Progress</h3>
+      <div class="number" id="overall-percent">0%</div>
+      <div class="sub"><span id="mastered-count">0</span> mastered, <span id="learning-count">0</span> in progress</div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="overall-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="starred-banner" id="starred-banner">
+      <div class="starred-info">
+        <div class="starred-label">⭐ Starred</div>
+        <div class="starred-text empty" id="starred-text">No cards starred yet. Tap ☆ on any card to flag it.</div>
+      </div>
+      <button class="study-btn" id="starred-study-btn" onclick="startFlashcards('starred')" style="display:none">Study →</button>
+    </div>
+
+    <div class="section-title">Study Modes</div>
+    <div class="mode-grid">
+      <button class="mode-card recommended" onclick="goTo('drill-setup')">
+        <span class="badge">START HERE</span>
+        <span class="icon">⚡</span>
+        <div class="title">Drill Mode</div>
+        <div class="desc">One field at a time — much easier to memorize</div>
+      </button>
+      <button class="mode-card" onclick="goTo('scenarios')">
+        <span class="icon">🚑</span>
+        <div class="title">Scenarios</div>
+        <div class="desc">Apply drugs to real patient cases</div>
+      </button>
+      <button class="mode-card" onclick="goTo('families')">
+        <span class="icon">🔗</span>
+        <div class="title">Drug Families</div>
+        <div class="desc">Compare similar drugs side-by-side</div>
+      </button>
+      <button class="mode-card" onclick="startFlashcards('all')">
+        <span class="icon">🃏</span>
+        <div class="title">Full Flashcards</div>
+        <div class="desc">Classic flip — all 7 fields at once</div>
+      </button>
+      <button class="mode-card" onclick="goTo('quiz-setup')">
+        <span class="icon">🧠</span>
+        <div class="title">Quiz Me</div>
+        <div class="desc">Multiple choice practice</div>
+      </button>
+      <button class="mode-card" onclick="startFlashcards('weak')">
+        <span class="icon">🎯</span>
+        <div class="title">Weak Spots</div>
+        <div class="desc">Drill what you don't know</div>
+      </button>
+      <button class="mode-card" onclick="startFlashcards('due')">
+        <span class="icon">⏰</span>
+        <div class="title">Due Today</div>
+        <div class="desc"><span id="due-count">0</span> cards waiting</div>
+      </button>
+    </div>
+
+    <div class="section-title">By Category</div>
+    <div class="category-grid" id="category-grid"></div>
+  </section>
+
+  <!-- SCENARIOS LIST VIEW -->
+  <section id="view-scenarios" class="view">
+    <div class="flashcard-nav">
+      <button class="nav-btn" onclick="goTo('home')">← Back</button>
+      <span class="progress-text">Scenarios</span>
+      <span style="width:60px"></span>
+    </div>
+    <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px;line-height:1.5;padding:0 4px">Apply your drug knowledge to clinical cases. Each scenario has one focused question — pick the right drug + dose for the situation.</p>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button class="primary-btn" style="margin:0;flex:1" onclick="startScenarioSequence()">Start from Beginning</button>
+      <button class="nav-btn" style="padding:14px 16px" onclick="randomScenario()">🎲 Random</button>
+    </div>
+    <div class="scenario-stats-bar" id="scenario-stats">0 / 0 completed</div>
+    <div id="scenarios-list"></div>
+  </section>
+
+  <!-- SCENARIO RUNNER VIEW -->
+  <section id="view-scenario-runner" class="view">
+    <div class="flashcard-nav">
+      <button class="nav-btn" onclick="goTo('scenarios')">← Exit</button>
+      <span class="progress-text" id="scenario-runner-counter">Scenario</span>
+      <span style="width:60px"></span>
+    </div>
+    <div id="scenario-content"></div>
+  </section>
+
+  <!-- DRILL SETUP VIEW -->
+  <section id="view-drill-setup" class="view">
+    <div class="flashcard-nav">
+      <button class="nav-btn" onclick="goTo('home')">← Back</button>
+      <span class="progress-text">Drill Mode</span>
+      <span style="width:60px"></span>
+    </div>
+
+    <div class="quiz-setup">
+      <h3>What do you want to drill?</h3>
+      <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px;line-height:1.5">One question per card. Pick a single field to drill across all drugs — way easier than memorizing everything at once. <strong style="color:var(--success)">Start with Indications</strong>; layer the rest in once it's solid.</p>
+
+      <div class="drill-field-grid" id="drill-field-grid"></div>
+
+      <div class="setup-row" style="margin-top:8px">
+        <label>Category</label>
+        <select id="drill-category">
+          <option value="all">All categories</option>
+        </select>
+      </div>
+      <button class="primary-btn" id="drill-start-btn" onclick="startDrill()" disabled>Pick a field above</button>
+    </div>
+  </section>
+
+  <!-- FAMILIES VIEW -->
+  <section id="view-families" class="view">
+    <div class="flashcard-nav">
+      <button class="nav-btn" onclick="goTo('home')">← Back</button>
+      <span class="progress-text">Drug Families</span>
+      <span style="width:60px"></span>
+    </div>
+    <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px;line-height:1.5;padding:0 4px">Compare similar drugs side-by-side. NREMT loves to test the differences between drugs in the same class — this is how to learn them.</p>
+    <div id="families-list"></div>
+  </section>
+
+  <!-- FAMILY COMPARE VIEW -->
+  <section id="view-family-compare" class="view">
+    <div class="flashcard-nav">
+      <button class="nav-btn" onclick="goTo('families')">← Back</button>
+      <span class="progress-text" id="family-title">Family</span>
+      <span style="width:60px"></span>
+    </div>
+    <div id="family-compare-content"></div>
+  </section>
+
+  <!-- FLASHCARD VIEW -->
+  <section id="view-flashcards" class="view">
+    <div class="flashcard-nav">
+      <button class="nav-btn" onclick="goTo('home')">← Exit</button>
+      <span class="progress-text" id="fc-progress">0 / 0</span>
+      <button class="nav-btn" onclick="shuffleDeck()">🔀</button>
+    </div>
+
+    <div class="flashcard-container" id="flashcard-container">
+      <button class="card-star" id="card-star" aria-label="Star this card">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </button>
+      <div class="flashcard" id="flashcard">
+        <div class="flashcard-face flashcard-front" id="fc-front"></div>
+        <div class="flashcard-face flashcard-back" id="fc-back"></div>
+      </div>
+    </div>
+
+    <div class="card-rating-bar" id="card-rating-bar" style="display:none">
+      <button class="rating-btn-big learning" onclick="markLearning()">📌 Still learning</button>
+      <button class="rating-btn-big got-it" onclick="markGotIt()">✓ Got it</button>
+    </div>
+
+    <div class="card-nav-bar">
+      <button class="card-nav-btn-big" id="prev-btn" onclick="prevCard()" aria-label="Previous card">←</button>
+      <div class="card-counter-big"><span id="card-counter-num">1</span> <span class="total">/ <span id="card-counter-total">0</span></span></div>
+      <button class="card-nav-btn-big" id="next-btn" onclick="nextCard()" aria-label="Next card">→</button>
+    </div>
+
+    <div class="card-hint" id="card-hint">Tap card to flip • Swipe for next • Press ⭐ to save</div>
+  </section>
+
+  <!-- QUIZ SETUP VIEW -->
+  <section id="view-quiz-setup" class="view">
+    <div class="flashcard-nav">
+      <button class="nav-btn" onclick="goTo('home')">← Back</button>
+      <span class="progress-text">Quiz Setup</span>
+      <span style="width:60px"></span>
+    </div>
+
+    <div class="quiz-setup">
+      <h3>Configure Your Quiz</h3>
+      <div class="setup-row">
+        <label>Questions</label>
+        <select id="quiz-count">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="30">30</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+      <div class="setup-row">
+        <label>Category</label>
+        <select id="quiz-category">
+          <option value="all">All categories</option>
+        </select>
+      </div>
+      <div class="setup-row">
+        <label>Question Types</label>
+        <select id="quiz-type">
+          <option value="mixed">Mixed (recommended)</option>
+          <option value="indication">Indication only</option>
+          <option value="class">Drug class only</option>
+          <option value="dose">Adult dose only</option>
+          <option value="contraindication">Contraindications</option>
+          <option value="action">Mechanism of action</option>
+        </select>
+      </div>
+      <button class="primary-btn" onclick="startQuiz()">Start Quiz →</button>
+    </div>
+  </section>
+
+  <!-- QUIZ VIEW -->
+  <section id="view-quiz" class="view">
+    <div class="quiz-header">
+      <button class="nav-btn" onclick="confirmExitQuiz()">← Exit</button>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0"></div></div>
+      <span class="progress-text" id="quiz-counter">1/20</span>
+    </div>
+    <div id="quiz-content"></div>
+  </section>
+
+  <!-- BROWSE VIEW -->
+  <section id="view-browse" class="view">
+    <input type="text" class="search-bar" id="search-input" placeholder="🔍 Search drug or trade name..." oninput="filterDrugs()">
+    <div class="filter-row" id="filter-row"></div>
+    <div class="drug-list" id="drug-list"></div>
+  </section>
+
+  <!-- PROGRESS VIEW -->
+  <section id="view-progress" class="view">
+    <div class="home-greeting">
+      <h2>Your Progress</h2>
+      <p>Track your mastery across all drugs.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-box success">
+        <div class="num" id="stat-mastered">0</div>
+        <div class="lbl">Mastered</div>
+      </div>
+      <div class="stat-box warning">
+        <div class="num" id="stat-learning">0</div>
+        <div class="lbl">Learning</div>
+      </div>
+      <div class="stat-box accent">
+        <div class="num" id="stat-reviews">0</div>
+        <div class="lbl">Total Reviews</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="stat-streak">0</div>
+        <div class="lbl">Day Streak</div>
+      </div>
+    </div>
+
+    <div class="section-title">Mastery by Category</div>
+    <div id="category-progress"></div>
+
+    <div class="section-title" style="margin-top:24px">Reset</div>
+    <button class="danger-btn" onclick="resetProgress()">Reset All Progress</button>
+  </section>
+
+  <footer class="ffe-foot">
+    Rx IT · TRAINING TOOL · NOT A PROTOCOL<br/>
+    © 2026 FIRE FUELED EDUCATION LLC · ALL RIGHTS RESERVED
+  </footer>
+</main>
+
+<!-- Drug detail modal -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<nav class="bottom-nav">
+  <button onclick="goTo('home')" data-view="home" class="active"><span class="icon">🏠</span><span>Home</span></button>
+  <button onclick="startFlashcards('all')" data-view="flashcards"><span class="icon">🃏</span><span>Cards</span></button>
+  <button onclick="goTo('quiz-setup')" data-view="quiz-setup"><span class="icon">🧠</span><span>Quiz</span></button>
+  <button onclick="goTo('browse')" data-view="browse"><span class="icon">📚</span><span>Browse</span></button>
+  <button onclick="goTo('progress')" data-view="progress"><span class="icon">📊</span><span>Stats</span></button>
+</nav>
+
+<script src="drugs.js"></script>
+<script src="scenarios.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
